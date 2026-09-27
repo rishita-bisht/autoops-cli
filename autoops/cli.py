@@ -6,10 +6,13 @@ Entry point for the AutoOps CLI tool.
 import argparse
 
 from autoops.log_parser import parse_log
+from autoops.storage import init_db, save_entries, get_level_counts
 
 
 def handle_parse(args):
+    init_db()
     result = parse_log(args.file)
+    save_entries(result["entries"], source_file=args.file)
 
     print(f"[parse] File: {args.file}")
     print(f"[parse] Total lines parsed: {len(result['entries'])}")
@@ -18,6 +21,10 @@ def handle_parse(args):
     print(f"[parse] INFO: {result['counts']['INFO']}")
     if result["unmatched"]:
         print(f"[parse] Lines that didn't match expected format: {result['unmatched']}")
+
+    print("[parse] Saved to database.")
+    totals = get_level_counts()
+    print(f"[parse] All-time totals in database: {totals}")
 
 
 def handle_report(args):

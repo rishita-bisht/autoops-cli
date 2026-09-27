@@ -7,6 +7,7 @@ import argparse
 
 from autoops.log_parser import parse_log
 from autoops.storage import init_db, save_entries, get_level_counts
+from autoops.report_generator import generate_report
 
 
 def handle_parse(args):
@@ -28,7 +29,9 @@ def handle_parse(args):
 
 
 def handle_report(args):
-    print(f"[report] Report generated for range: {args.range}")
+    init_db()
+    output_path = generate_report(args.range)
+    print(f"[report] Report generated: {output_path}")
 
 
 def handle_run(args):

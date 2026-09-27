@@ -55,8 +55,7 @@ def save_entries(entries, source_file, db_path=DB_PATH):
 
 def get_level_counts(db_path=DB_PATH):
     """
-    Returns total counts per level across ALL saved history,
-    not just the most recent parse. Useful for trend reports.
+    Returns total counts per level across ALL saved history.
     """
     conn = get_connection(db_path)
     cursor = conn.cursor()
@@ -65,5 +64,38 @@ def get_level_counts(db_path=DB_PATH):
     """)
     rows = cursor.fetchall()
     conn.close()
-
     return dict(rows)
+
+
+def get_top_error_messages(limit=5, db_path=DB_PATH):
+    """
+    Returns the most frequent ERROR messages, useful for spotting
+    recurring issues. Returns a list of (message, count) tuples.
+    """
+    conn = get_connection(db_path)
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT message, COUNT(*) as freq
+        FROM log_entries
+        WHERE level = 'ERROR'
+        GROUP BY message
+        ORDER BY freq DESC
+        LIMIT ?
+    """, (limit,))
+    rows = cursor.fetchall()
+    conn.close()
+    return rows
+
+
+def get_all_entries(db_path=DB_PATH):
+    """Returns every stored entry, newest first."""
+    conn = get_connection(db_path)
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT timestamp, source_file, level, message
+        FROM log_entries
+        ORDER BY id DESC
+    """)
+    rows = cursor.fetchall()
+    conn.close()
+    return rows

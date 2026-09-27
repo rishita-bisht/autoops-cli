@@ -4,3 +4,4 @@ __pycache__/
 storage/history.db
 .env
 logs/*.log
+reports/

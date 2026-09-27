@@ -5,9 +5,19 @@ Entry point for the AutoOps CLI tool.
 
 import argparse
 
+from autoops.log_parser import parse_log
+
 
 def handle_parse(args):
-    print(f"[parse] File parsed: {args.file}")
+    result = parse_log(args.file)
+
+    print(f"[parse] File: {args.file}")
+    print(f"[parse] Total lines parsed: {len(result['entries'])}")
+    print(f"[parse] ERROR: {result['counts']['ERROR']}")
+    print(f"[parse] WARNING: {result['counts']['WARNING']}")
+    print(f"[parse] INFO: {result['counts']['INFO']}")
+    if result["unmatched"]:
+        print(f"[parse] Lines that didn't match expected format: {result['unmatched']}")
 
 
 def handle_report(args):
@@ -49,5 +59,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-

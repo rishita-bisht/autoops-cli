@@ -1,0 +1,7 @@
+[Unit]
+Description=AutoOps health check task
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/huiii/autoops-cli
+ExecStart=/home/huiii/autoops-cli/venv/bin/autoops run --task health_check

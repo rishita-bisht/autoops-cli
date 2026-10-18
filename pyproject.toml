@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "autoops-cli"
+version = "0.1.0"
+description = "DevOps automation CLI: log parsing, reporting, and task automation"
+requires-python = ">=3.9"
+dependencies = [
+    "pyyaml",
+    "jinja2",
+    "requests",
+]
+
+[project.scripts]
+autoops = "autoops.cli:main"
+
+[tool.setuptools]
+packages = ["autoops"]

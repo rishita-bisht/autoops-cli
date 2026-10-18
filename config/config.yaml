@@ -1,0 +1,18 @@
+tasks:
+  cleanup:
+    description: "Purani temp files delete karo"
+    type: cleanup
+    path: /tmp/autoops_test
+    older_than_days: 7
+
+  health_check:
+    description: "Check karo ki website chal rahi hai"
+    type: health_check
+    url: https://example.com
+    timeout_seconds: 5
+
+  backup:
+    description: "Folder ka backup banao"
+    type: backup
+    source: ./logs
+    destination: ./backups

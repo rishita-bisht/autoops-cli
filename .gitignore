@@ -5,3 +5,4 @@ storage/history.db
 .env
 logs/*.log
 reports/
+backups/
